@@ -79,38 +79,9 @@ public class SecurityConfig {
 
         return http.build();
     }
-
-    @Bean
-    public UserDetailsService userDetailsService() {
-        var u1 = User.withUsername("user")
-                .password("password")
-                .authorities("read")
-                .build();
-
-        return new InMemoryUserDetailsManager(u1);
-    }
-
     @Bean
     public PasswordEncoder passwordEncoder() {
         return NoOpPasswordEncoder.getInstance();
-    }
-
-    @Bean
-    public RegisteredClientRepository registeredClientRepository() {
-        RegisteredClient r1 = RegisteredClient.withId(UUID.randomUUID().toString())
-                .clientId("client")
-                .clientSecret("secret")
-                .clientAuthenticationMethod(ClientAuthenticationMethod.CLIENT_SECRET_BASIC)
-                .scope(OidcScopes.OPENID)
-                .scope(OidcScopes.PROFILE)
-                .redirectUri("https://springone.io/authorized")
-                .authorizationGrantType(AuthorizationGrantType.AUTHORIZATION_CODE)
-                .authorizationGrantType(AuthorizationGrantType.REFRESH_TOKEN)
-                .authorizationGrantType(AuthorizationGrantType.CLIENT_CREDENTIALS  )
-                .tokenSettings(TokenSettings.builder().accessTokenTimeToLive(Duration.ofSeconds(900)).build())
-                .build();
-
-        return new InMemoryRegisteredClientRepository(r1);
     }
 
     @Bean
